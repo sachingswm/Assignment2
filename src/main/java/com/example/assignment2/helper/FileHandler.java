@@ -41,7 +41,6 @@ public class FileHandler {
             {
 
                 Cell cell=cellIterator.next();
-                System.out.println(cell);
                 String cellValue=dataFormatter.formatCellValue(cell);
                 if(count==0)
                 {
@@ -54,7 +53,7 @@ public class FileHandler {
                 }
             }
             users.add(user);
-            System.out.println(user);
+
         }
         workbook.close();
         return users;

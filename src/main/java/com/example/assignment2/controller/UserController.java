@@ -5,10 +5,10 @@ import com.example.assignment2.helper.FileHandler;
 import com.example.assignment2.service.abstraction.UserDaoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
@@ -20,6 +20,15 @@ public class UserController {
 
     @Autowired
     private FileHandler fileHandler;
+
+    @RequestMapping("/")
+    public ModelAndView fileUploadForm()
+    {
+        ModelAndView mv=new ModelAndView();
+        mv.setViewName("FileUpload");
+        return mv;
+
+    }
 
     @PostMapping(value = "/saveUser",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public List<User> saveUser(@RequestPart(value = "file",required = true)MultipartFile multipartFile)throws Exception
