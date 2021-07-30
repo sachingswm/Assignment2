@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <tr th:if="${users.isEmpty()}">
+    <td colspan="2"> No Users Available </td>
+    </tr>
+    <tr th:each="user : ${users}">
+        <td><span th:text="${user.getId()}"> Title </span></td>
+        <td><span th:text="${user.getName()}"> Author </span></td>
+    </tr>
+</body>
+</html>

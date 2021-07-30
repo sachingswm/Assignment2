@@ -6,13 +6,14 @@ import com.example.assignment2.service.abstraction.UserDaoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
-@RestController
+@Controller
 public class UserController {
 
     @Autowired
@@ -21,21 +22,20 @@ public class UserController {
     @Autowired
     private FileHandler fileHandler;
 
-    @RequestMapping("/")
-    public ModelAndView fileUploadForm()
-    {
-        ModelAndView mv=new ModelAndView();
-        mv.setViewName("FileUpload");
-        return mv;
-
+    @GetMapping("/")
+    public ModelAndView fileUploadForm() {
+        System.out.println("Hi");
+        return new ModelAndView("FileUpload");
     }
 
-    @PostMapping(value = "/saveUser",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public List<User> saveUser(@RequestPart(value = "file",required = true)MultipartFile multipartFile)throws Exception
-    {
-        List<User> users=FileHandler.convertFileTOListOfUser(multipartFile);
-        for(User user:users)
+    @PostMapping(value = "/saveUser")
+    public ModelAndView saveUser(@RequestParam("excel") MultipartFile multipartFile) throws Throwable {
+        List<User> users = FileHandler.convertFileTOListOfUser(multipartFile);
+        for (User user : users)
             userDaoService.saveUser(user);
-        return users;
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("ResultPage");
+        modelAndView.addObject("users", users);
+        return modelAndView;
     }
 }
