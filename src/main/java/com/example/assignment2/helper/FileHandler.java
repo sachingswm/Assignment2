@@ -1,6 +1,8 @@
 package com.example.assignment2.helper;
 
 import com.example.assignment2.entity.User;
+import com.example.assignment2.exception.UserIncompleteDetails;
+import com.example.assignment2.exception.UserInvalidDetails;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
@@ -39,11 +41,17 @@ public class FileHandler {
             int count=0;
             while(cellIterator.hasNext())
             {
-
                 Cell cell=cellIterator.next();
                 String cellValue=dataFormatter.formatCellValue(cell);
                 if(count==0)
                 {
+                    try{
+                        Long id=(Long.parseLong(cellValue));
+                    }
+                    catch (Exception e)
+                    {
+                        throw new UserInvalidDetails("Invalid Details");
+                    }
                     user.setId(Long.parseLong(cellValue));
                     count++;
                 }
